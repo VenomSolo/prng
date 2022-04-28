@@ -4,9 +4,11 @@ defmodule Prng.MixProject do
   def project do
     [
       app: :prng,
-      version: "0.1.0",
+      version: "0.0.1",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
+      description: description(),
+      package: package(),
       deps: deps()
     ]
   end
@@ -15,6 +17,20 @@ defmodule Prng.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp description do
+    """
+    Library for generating pseudo-random numbers
+    """
+  end
+
+  defp package do
+    [
+      files: ["lib", "mix.exs", "README*", "LICENSE*"],
+      maintainers: ["Jakub Karolik", "Jan Zborowski"],
+      links: %{"GitHub" => "https://github.com/VenomSolo/prng"}
     ]
   end
 
