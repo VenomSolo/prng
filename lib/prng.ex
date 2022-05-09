@@ -1,4 +1,4 @@
-defmodule Prng do
+defmodule PRNG do
   @moduledoc """
   Documentation for `Prng`.
   """
