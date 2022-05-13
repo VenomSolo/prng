@@ -14,10 +14,8 @@ defmodule PRNG.Threefry do
 
   @spec threefry_split(PRNG.prng_key(), pos_integer()) :: [PRNG.prng_key()]
   def threefry_split(key, num) when is_threefry_key(key) do
-    counts = Enum.to_list(0..(num * 2 - 1))
-
     key
-    |> threefry2x32(counts)
+    |> threefry2x32(iota(num * 2))
     |> Enum.chunk_every(2)
   end
 
@@ -28,7 +26,7 @@ defmodule PRNG.Threefry do
 
   @spec threefry_random_bits(PRNG.prng_key(), pos_integer()) :: [integer()]
   def threefry_random_bits(key, num \\ 1) when is_threefry_key(key) and num >= 1 do
-    threefry2x32(key, Enum.to_list(0..(num - 1)))
+    threefry2x32(key, iota(num))
   end
 
   defp threefry2x32(key, count) when is_threefry_key(key) and is_list(count) do
@@ -60,7 +58,7 @@ defmodule PRNG.Threefry do
 
     state = [xs, ks, rotations]
 
-    0..4
+    iota(5)
     |> Enum.reduce(state, &rolled_loop_step/2)
     |> hd()
     |> Enum.map(&list_to_int32(&1))
@@ -109,5 +107,9 @@ defmodule PRNG.Threefry do
 
   defp add_to_list(list, val) when is_list(val) do
     Enum.zip_with([list, val], fn [l, v] -> l + v end)
+  end
+
+  defp iota(num) do
+    Enum.to_list(0..(num - 1))
   end
 end
